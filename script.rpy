@@ -35,6 +35,10 @@ init:
         xpos 0 xzoom 1.0
         linear delay xpos -config.screen_width
         repeat
+    transform left_to_right:
+        xalign -1.5
+        linear 2.0 xalign 1.5 
+        repeat
 
 init python:
     def _scroll(img, effect = None, delay = 10.0):
