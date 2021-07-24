@@ -19,23 +19,26 @@ define rau = Character('Рома и Юля', color="#000000")
 init:
     image forest_background = "images/forest background.png"
     image space_background = "images/stars.png"
-    image poke = "images/pokeball.jpg"
     transform scroll_in(delay = 10.0):
+        ypos 250
         xpos config.screen_width xzoom -1.0
         linear delay xpos 0
         pause delay
         repeat
     transform scroll_in2(delay = 10.0):
+        ypos 250
         xpos config.screen_width
         pause delay
         linear delay xpos 0
         repeat
     transform scroll_out(delay = 10.0):
+        ypos 250
         xpos 0
         linear delay xpos -config.screen_width
         pause delay
         repeat
     transform scroll_out2(delay = 10.0):
+        ypos 250
         xpos config.screen_width
         pause delay
         xpos 0 xzoom -1.0
@@ -132,49 +135,38 @@ init:
 init:
     $ sshake = Shake((0, 0, 0, 0), 1.0, dist=15)
 
+image noise:
+    "images/shum2.png"
+    pause 0.5
+    "images/shum3.png"
+    pause 0.5
+    "images/shum4.png"
+    pause 0.5
+    "images/shum5.png"
+    pause 0.5
+    "images/shum6.png"
+    pause 0.5
+    repeat
 
-image forest__background:
-    contains:
-        subpixel True
-        xalign 0.0
-        HBox(   "forest background",
-                "forest background",
-                "forest background")
-        linear 2.0 xpos -1.0
-        linear 2.0 xpos 0.0
-        repeat
 
-image scrollz:
-        contains:
-            "forest background"
-            xalign 2.5
-            linear 2.0 xalign -1.5
-            repeat
-
+screen daytime():
+    if dt == "Утро":
+        add "#8404"
+    if dt == "Вечер":
+        add "#0484"
+    if dt == "Ночь":
+        add "#000b"
 #Здесь начинается текстовая часть игры
   
 label start:
 
-    jump creditz
-
     #$ config.rollback_enabled = False
-
-    screen daytime():
-        if dt == "Утро":
-            add "#8404"
-        if dt == "Вечер":
-            add "#0484"
-        if dt == "Ночь":
-            add "#000b"
 
     stop music
 
     stop audio
 
     stop sound
-
-    #$ _scroll("sky", Dissolve(2.0), 15)
-    #pause
     
     scene black
     with fade
@@ -216,12 +208,9 @@ label start:
 
     scene black
 
-    $ _scroll("forest_background", None, 15)
+    show forest background
 
     show train coupe
-    with fade
-
-    show ulya
     with fade
 
     "Купе было пустое."
@@ -290,6 +279,10 @@ label start:
 
     window show dissolve
 
+    jump girl_enter
+
+label girl_enter:
+
     play audio "audio/slidedoor.wav"
 
     "Дверь открылась?"
@@ -297,8 +290,6 @@ label start:
     #Вечерний фон
 
     scene black
-
-    
 
     show train coupe
     with eye_open
@@ -309,11 +300,9 @@ label start:
 
     show train coupe
 
-
-
     "В купе вошла девушка."
 
-    show ulya
+    show ulya normal
     with dissolve
 
     r "Здравствуйте."
@@ -324,7 +313,7 @@ label start:
 
     r "Я Рома."
     
-    $ renpy.pause(1.0, hard=True)
+    $ renpy.pause(0.5, hard=True)
 
     rau "Приятно познакомиться!"
 
@@ -332,10 +321,12 @@ label start:
 
     "Я встал, взял полотенце и пошёл в уборную."
 
+    $ _hide("forest_background", None)
+
     #Вечерний фон
     #Можно придумать анимацию в коридоре
 
-    show train corridor
+    scene train corridor
     with fade
 
     "Все купе закрыты."
@@ -348,17 +339,28 @@ label start:
 
     play audio "audio/slidedoor.wav"
 
-    scene sky at left_to_right:
-        ypos 250
+    scene black
 
     show train coupe
     with fade
 
+    $ _scroll("forest_background", None, 2)
+    
+    hide train coupe
+
+    show train coupe
+
     "Подойдя к своему купе я открыл дверь и зашёл."
 
-    play audio "audio/slidedoor.wav"
+    jump first_choise
+
+label first_choise:
 
     "Купе было пустое."
+
+    "Я закрыл дверь"
+
+    play audio "audio/slidedoor.wav"
 
     "Странно, наверное, девушка ошиблась и вошла не в то купе."
 
@@ -415,14 +417,14 @@ label strange:
 
     "Подвинув дверь перед собой я увидел лес."
 
-    show ulya
-    with dissolve
-
     "Прямо перед глазами сидя на корточках, посреди леса, плакала девушка, которая зашла ко мне в купе, Юля."
 
     r "Юля!"
 
     "Крикнул я и побежал в её сторону."
+
+    show ulya cry
+    with dissolve
 
     "Юля обернулась, когда я почти добежал до неё."
 
@@ -436,7 +438,7 @@ label strange:
 
     u "Пошли быстрее, а то поезд уедет!"
 
-    hide ulya
+    hide ulya cry
     with dissolve
 
     "Юля взяла меня за руку, и мы стремительным шагом пошли к вокзалу."
@@ -453,7 +455,7 @@ label strange:
 
     r "Юля, почему мы были в лесу, вдвоём?"
 
-    show ulya
+    show ulya normal
     with dissolve
 
     u "Что значит почему? Мы же вышли на остановке и решили прогуляться в лесу."
@@ -481,7 +483,7 @@ label strange:
 
     "Чего?"
 
-    show ulya
+    show ulya normal
     with dissolve
 
     u "Ты чего остановился?"
@@ -513,7 +515,7 @@ label strange:
 
     #В идеале тут должен быть спрайт Юли в чёрном платье на похоры.
 
-    show ulya black
+    show ulya dress
     with dissolve
 
     u "Рома, не переживай."
@@ -522,13 +524,10 @@ label strange:
 
     "Ага."
 
-    hide ulya black
+    hide ulya dress
     with dissolve
 
     "Я развернулся и пошёл."
-
-    scene memory train
-    with fade
 
     "Ходя по кладбищу я вышел к вагону."
 
@@ -581,11 +580,16 @@ label memory_train_first:
 
     #Вечерний фон
 
-    scene sky at left_to_right:
-        ypos 250
+    scene black
 
     show train coupe
     with eye_open
+
+    $ _scroll("forest_background", None, 2)
+    
+    hide train coupe
+
+    show train coupe
 
     "В купе вошла девушка."
 
@@ -605,6 +609,8 @@ label memory_train_first:
 
     "Я встал, взял полотенце и пошёл в уборную."
 
+    $ _hide("forest_background", None)
+
     #Вечерний фон
     #Можно придумать анимацию в коридоре
 
@@ -619,11 +625,19 @@ label memory_train_first:
 
     #Вечерний фон
 
-    scene sky at left_to_right:
-        ypos 250
+    scene black
 
     show train coupe
     with fade
+
+    $ _scroll("forest_background", None, 2)
+    
+    hide train coupe
+
+    show train coupe
+
+    show ulya normal
+    with dissolve
 
     u "О вы вернулись, можете помочь пожалуйста?"
 
@@ -633,11 +647,17 @@ label memory_train_first:
     
     u "Спасибо."
 
+    hide ulya normal
+    with dissolve
+
     "Я присел около окна."
 
     "Вечерние виды завораживают."
 
     "Юля закончила застилать полку и тоже села рядом с окном."
+
+    show ulya normal
+    with dissolve
 
     u "Вам так нравиться смотреть в окно?"
 
@@ -711,9 +731,17 @@ label memory_train_first:
 
     u "Почему бы и нет."
 
+    $ _nide("forest_background", None)
+
+    scene station
+    with fade
+
     "Мы вышли на остановку.{w} На платформе были магазины с едой и сувенирами."
 
     "Дойдя до конца платформы, я посмотрел на Юлю."
+
+    show ulya normal
+    with dissolve
 
     r "Не хочешь спуститься и погулять по лесу?"
 
@@ -724,9 +752,15 @@ label memory_train_first:
     scene forest
     with fade
 
+    show ulya normal
+    with dissolve
+
     "Я взял Юлю за руку, и мы спустились в лес."
 
     "Юля слегка дрожала от холода."
+
+    hide ulya normal
+    with dissolve
 
     "Пройдя слегка в глубь леса, Юля отпустила мою руку."
 
@@ -740,6 +774,9 @@ label memory_train_first:
 
     "Крикнул я и побежал в её сторону."
 
+    show ulya cry
+    with dissolve
+
     "Юля обернулась, когда я почти добежал до неё."
 
     u "Рома! Где ты был!?"
@@ -752,7 +789,7 @@ label memory_train_first:
 
     u "Пошли быстрее, а то поезд уедет!"
 
-    hide ulya
+    hide ulya cry
     with dissolve
 
     "Юля взяла меня за руку и мы стремительным шагом пошли к вокзалу."
@@ -765,22 +802,36 @@ label memory_train_first:
 
     "Мы быстро забежали в поезд и пошли к своему купе."
 
+    scene train corridor
+
+    $ renpy.pause(1.0, hard=True)
+
     scene black
+
+    show train coupe
+    with fade
 
     $ _scroll("space_background", None, 15)
 
+    hide train coupe
+
     show train coupe
+
+    show ulya normal
     with fade
 
     u "Что случилось, куда ты делся в лесу?"
 
     r "Я не поминаю о чём ты говоришь. Ты отпустила мою руку и пошла впёред."
 
-    u "Это не правда! Ты будто бы исчез, а потом появился."
+    u "Это не правда! Ты будто бы исчез, а потом появился..."
 
     "Юля пересела на мою полку и положила голому мне на плечо."
 
     u "Ладно. Главное, что сейчас всё хорошо..."
+
+    scene black
+    with fade
 
     $ renpy.pause(2.0, hard=True)
 
@@ -843,11 +894,17 @@ label memory_train_second:
 
     "Мужчина обернулся, и одобрительно помахал головой."
 
+    hide ulya normal
+    with dissolve
+
     "Юля подбежала к собаке, погладила пару раз за ушами, и провела рукой по спине."
 
     u "Спасибо!"
 
-    "Юля вернулась ко мне и продолжили прогулку."
+    show ulya normal
+    with dissolve
+
+    "Юля вернулась ко мне и мы продолжили прогулку."
 
     u "Слушай, мне так понравилась собачка, может мы тоже себе заведём?"
 
@@ -874,7 +931,7 @@ label memory_train_third:
     scene funeral
     with fade
 
-    show ulya black
+    show ulya dress
     with dissolve
 
     u "Рома, не переживай."
@@ -895,7 +952,7 @@ label memory_train_third:
 
     "Сквозь слезы, говорила Юля, пытаясь меня подбодрить."
 
-    hide ulya black
+    hide ulya dress
     with dissolve
 
     "Я подошёл к гробу, в котором лежала моя мама."
@@ -908,7 +965,7 @@ label memory_train_third:
 
     "Ко мне подбежала Юля и посмотрела мне в глаза."
 
-    show ulya black
+    show ulya dress
     with dissolve
 
     u "Пожалуйста..."
@@ -921,6 +978,9 @@ label memory_train_third:
 
     "Думая я осознал. У меня есть ещё один близкий человек ради которого стоит жить."
 
+    hide ulya dress
+    with dissolve
+
     "Юля положила голову мне на плечо."
 
     u "Я люблю тебя, Рома..."
@@ -931,9 +991,7 @@ label memory_train_third:
 
     $ renpy.pause(2.0, hard=True)
 
-    "Тр-р-р-р-яск-к-а-а-а-а-а." with sshake((0, 0, 0, 0), 2.0, dist=30)
-
-    "Это было сильнее чем обычно."
+    "Тр-р-р-р-яск-к-а-а-а-а-а." with sshake
 
     menu:
 
@@ -952,11 +1010,16 @@ label trueend:
 
     scene black
 
+    show train coupe
+    with eye_open
+
     $ _scroll("space_background", None, 15)
+
+    hide train coupe
 
     show train coupe
 
-    show ulya hat
+    show ulya normal
     with dissolve
 
     u "Просыпайся, мы приехали."
@@ -979,7 +1042,7 @@ label trueend:
 
     "Поезд остановился и мы вышли на вокзал."
 
-    "Я, Юля, и наш сын Саша, возвращаемся домой."
+    "Я и Юля, возвращаемся домой."
 
     jump creditz
 
@@ -987,8 +1050,28 @@ label trueend:
 
 
 
-
 label bad:
+
+    play music "audio/Dead Planet.wav" volume 0.6
+
+    scene shum:
+        ypos 250
+
+    show noise at Glitch(_fps=1., color_range1="000", color_range2="000"):
+        ypos 250
+
+
+    show train coupe
+    with fade
+    "123"
+
+
+    play sound "audio/intrain.wav" volume 0.4 loop
+    
+
+
+
+
 
 init:
     transform txt_up:
