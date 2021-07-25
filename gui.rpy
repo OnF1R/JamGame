@@ -12,7 +12,7 @@ init python:
     gui.init(1920, 1080)
 
 
-
+$ per = 0
 ################################################################################
 ## Конфигурируемые Переменные GUI
 ################################################################################
@@ -49,20 +49,20 @@ define gui.muted_color = u'#666666'
 define gui.hover_muted_color = u'#999999'
 
 ## Цвета, используемые в тексте диалогов и выборов.
-define gui.text_color = u'#404040'
+define gui.text_color = u'#000000'
 define gui.interface_text_color = u'#404040'
 
 
 ## Шрифты и их размеры #########################################################
 
 ## Шрифт, используемый внутриигровым текстом.
-define gui.text_font = "DejaVuSans.ttf"
+define gui.text_font = "fonts/Roboto-Medium.ttf"
 
 ## Шрифт, используемый именами персонажей.
-define gui.name_text_font = "DejaVuSans.ttf"
+define gui.name_text_font = "fonts/Roboto-Black.ttf"
 
 ## Шрифт, используемый текстом вне игры.
-define gui.interface_text_font = "DejaVuSans.ttf"
+define gui.interface_text_font = "fonts/Roboto-Medium.ttf"
 
 ## Размер нормального текста диалога.
 define gui.text_size = 33
@@ -88,7 +88,6 @@ define gui.title_text_size = 75
 ## Изображения, используемые в главном и игровом меню.
 define gui.main_menu_background = "gui/main_menu.png"
 define gui.game_menu_background = "gui/game_menu.png"
-
 
 ## Диалог ######################################################################
 ##
@@ -213,7 +212,7 @@ define gui.choice_button_borders = Borders(150, 8, 150, 8)
 define gui.choice_button_text_font = gui.text_font
 define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = "#cccccc"
+define gui.choice_button_text_idle_color = "#000000"
 define gui.choice_button_text_hover_color = "#ffffff"
 define gui.choice_button_text_insensitive_color = "#444444"
 

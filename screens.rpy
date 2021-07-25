@@ -240,6 +240,7 @@ style choice_button_text is default:
 ## Быстрое меню показывается внутри игры, чтобы обеспечить лёгкий доступ к
 ## внеигровым меню.
 
+
 screen quick_menu():
 
     ## Гарантирует, что оно появляется поверх других экранов.
@@ -268,7 +269,7 @@ screen quick_menu():
 init python:
     config.overlay_screens.append("quick_menu")
 
-default quick_menu = True
+default quick_menu = False
 
 style quick_button is default
 style quick_button_text is button_text
@@ -278,7 +279,6 @@ style quick_button:
 
 style quick_button_text:
     properties gui.button_text_properties("quick_button")
-
 
 ################################################################################
 ## Экраны Главного и Игрового меню
@@ -321,12 +321,12 @@ screen navigation():
 
             textbutton _("Главное меню") action MainMenu()
 
-        textbutton _("Об игре") action ShowMenu("about")
+        #textbutton _("Об игре") action ShowMenu("about")
 
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+        #if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Помощь не необходима и не относится к мобильным устройствам.
-            textbutton _("Помощь") action ShowMenu("help")
+            #textbutton _("Помощь") action ShowMenu("help")
 
         if renpy.variant("pc"):
 

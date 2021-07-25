@@ -18,7 +18,7 @@ define config.name = _("JamGame")
 ## Определяет, показывать ли заголовок, данный выше, на экране главного меню.
 ## Установите на False, чтобы спрятать заголовок.
 
-define gui.show_name = True
+define gui.show_name = False
 
 
 ## Версия игры.
@@ -48,7 +48,7 @@ define build.name = "JamGame"
 
 define config.has_sound = True
 define config.has_music = True
-define config.has_voice = True
+define config.has_voice = False
 
 
 ## Чтобы разрешить игроку тестировать громкость на звуковом или голосовом
@@ -62,7 +62,8 @@ define config.has_voice = True
 ## проигрываться в главном меню. Этот файл продолжит проигрываться во время
 ## игры, если не будет остановлен, или не начнёт проигрываться другой аудиофайл.
 
-# define config.main_menu_music = "main-menu-theme.ogg"
+stop audio
+define config.main_menu_music = "audio/Lost in the Dessert.wav"
 
 
 ## Переходы ####################################################################
@@ -84,12 +85,12 @@ define config.intra_transition = dissolve
 
 ## Переход, используемый после загрузки слота сохранения.
 
-define config.after_load_transition = None
+define config.after_load_transition = dissolve
 
 
 ## Используется при входе в главное меню после того, как игра закончится.
 
-define config.end_game_transition = None
+define config.end_game_transition = dissolve
 
 
 ## Переменная, устанавливающая переход, когда старт игры не существует. Вместо
